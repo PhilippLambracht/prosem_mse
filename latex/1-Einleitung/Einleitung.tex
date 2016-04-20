@@ -1,12 +1,19 @@
 Zum Zeitpunkt der Veröffentlichung des von mir ausgewählten Wissenschaftlichen Artikel wurden viele
 unterschiedliche Methoden zur 3D Objekterkennung vorgestellt. Einzelne Deskriptoren konnten sich 
 bisher nicht als überlegen herausstellen. Es hat sich vielmehr etabliert jeweilige Deskriptoren
-geschickt zu kombinieren um deren stärken zu nutzen und somit eine weitaus bessere Performance zu nutzen.
+geschickt zu kombinieren um deren stärken zu nutzen und somit eine weitaus bessere Performance zu erzielen.
+Dementsprechend wird der in \cite{scherer2010histograms} vorgestellte HOG3D mit hoch-dimensionalen Merkmal Vektoren
+verglichen und eine Kombination mit diesem in einem Experiment versucht.
 \newline
 Hauptmotivation für der HOG3D waren unter anderem bereits erfolgreiche Anpassungen von 2D Bild Analyse Methoden auf 3D Objekterkennung. Es wurde sich für die Anpassung des bereits erfolgreichen HOG aus \cite{dalal2005histograms} entschieden.
 
+
 \subsection{Grundbegriffe}
 Im folgenden werde ich ein paar wichtige Grundbegriffe für diese Ausarbeitung erläutern. 
+
+\subsubsection{Globaler und partieller Ansatz}
+Bei der 3D Objekterkennung gibt es zwei verschiedene Ansätze. Der globale Ansatz betrachtet jeweils die komplette Form des
+3D Models und es werden nach Ähnlichkeiten gesucht, während der partielle Ansatz nach lokalen Ähnlichkeiten sucht. Hierbei ist zu beachten, dass es bisher keine absolute Lösung des Ähnlichkeitsproblems existiert, werde für den globalen noch für den partiellen Ansatz. Dementsprechend haben entsprechende Lösungsversuche einen heuristische Natur. \cite{scherer2010histograms}.
 
 \subsubsection{Histogramm}
 Histogramme dienen der in der Statistik und Bildverarbeitung dazu Häufigkeiten bestimmter Merkmale
@@ -29,6 +36,45 @@ Graustufenbildes mit den jeweils darin vorkommenden Grauwerten.
 Eine Detail reichere Einführung im Bezug auf Bildverarbeitung ist in \cite{Priese15} zu finden.
 
 \subsubsection{Gerichtete Gradienten}
+Gerichtete Gradienten werden wie z.B. in \cite{dalal2005histograms} äußerst erfolgreich zur Merkmaildetektion für 2D Bilder eingesetzt. Die Verwendung dieses Begriffs kann in \cite{scherer2010histograms} und dementsprechend in dieser Ausarbeitung vom mathematischen Begriff abweichen.
+\newline
+Um Gerichtete Gradienten zu berechnen, benötigt man Gradientenoperatoren. Hiermit sind Lineare Filter aus der Bildverarbeitung gemeint. In der Einführungslektüre \cite{Priese15} versteht man Filter als Funktionen welche auf Bilder, als Matrizen darstellbar, angewendet werden. Gradientenoperatoren sind gemäß der Definition über differenzierbare Funktionen, eine entsprechende Approximation mit denen man z.B. 2D Bilder "`ableiten"' kann. Die Filtermaske 
+$
+\begin{Bmatrix}
+-1 & 0 & 1
+\end{Bmatrix}
+$
+bewirkt z.B. die 1. Ableitung. Dieser Filter kann z.B. für ein 2D Bild dementsprechend in die X-Richtung und in die Y-Richtung angewendet werden. 
+
+\begin{table}[]
+	\centering
+	\caption{Grauwertbild als Matrize}
+	\label{GrauwertMat}
+	\begin{tabular}{llll}
+		$a_{00}$ & $a_{01}$ & $a_{02}$ & $a_{03}$ \\
+		$a_{10}$ & 100    & 50     & 235     \\
+		$a_{20}$ & 73     & 42     & 150      \\
+		$a_{30}$ & 30     & 125    & 0                     
+	\end{tabular}
+\end{table}
+
+Formel \ref{abl_a22} zeigt ein Beispiel, wie ein Element aus \tablename~\ref{GrauwertMat} abgeleitet wird. In diesem Fall in X-Richtung. An den Rändern muss jeweils eine Randbehandlung vorgenommen werden. Werte können z.B. gespiegelt werden.
+\begin{equation}
+\label{abl_a22}
+a_{22}'x = -75 + 0 +150 = 75
+\end{equation}
+
+Mit den Gradientenoperatoren lässt sich jeweils die Gradientenlänge bzw. -betrag und die Gradientenrichtung berechen. Die Forlmen \ref{Grad_L} und \ref{Grad_R}, entnommen aus \cite{Priese15} zeigen jeweils die Berechnung für 2D Bilder. $I_x$ bzw. $I_y$ steht jeweils für die Ableitung in X- bzw. Y-Richtung. Mit dem Parameter p ist den entsprechende Pixel gemeint.
+\begin{equation}
+\label{Grad_L}
+G_l(p) = \sqrt{I^2_x(p)+ I^2 y(p)}
+\end{equation}
+
+\begin{equation}
+\label{Grad_R}
+G_r(p) = arctan_2(- I_y(p),I_x(p))
+\end{equation}
 
 
 \subsubsection{3D Mesh}
+3D Mechs werden dazu verwendet um 3D Objekte digital zu speichern. Es werden Informationen über die Vertices (Punkte), Kanten, Flächen, Polygone sowie falls nötig Informationen über die Oberfläche (z.B. Farbe) gespeichert. In dem von mir Ausgewählten Artikel \cite{scherer2010histograms} werden Meshs aus schon bestehenden Performance-Tests genommen um die Leistungsfähigkeit des HOG3D zu messen.

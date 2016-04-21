@@ -1,0 +1,26 @@
+In diesem Abschnitt werde ich zunächst den HOG2D aus \cite{dalal2005histograms} kurz vorstellen, mit dem Hauptthema HOG3D fortfahren und zuletzt das in \cite{scherer2010histograms} durchgeführte Experiment aufgreifen.
+
+\subsection{HOG2D}
+Im Bereich der 2D Objekterkennung aus Bildern existieren bereits erfolgreiche Methoden. Der Skale-Invariant-Feature-Transform Algorithmus (SIFT),genauere Beschreibung z.B. in \cite{Priese15}
+zu finden, arbeitet mit aggregierten Gradienten. Beim HOG2D werden hingegen die Gradienten entsprechend
+ihrer Richtung in Histogrammen eingeordnet.
+\newline
+Die Idee hinter dem HOG2D ist, dass sich Form und Aussehen von Objekten mit Gradienten beschreiben lassen.
+Dies ist selbst möglich ohne die genaue Position der Gradienten zu kennen. Der HOG2D läuft grob nach folgenden Schema ab. Zuerst werden die Farbwerte des Bilds,auf dem die Detektion durchgeführt wird, normalisiert. Danach wird das Bild in gleich große, rechteckige Zellen aufgeteilt. Dabei können einzelne Zellen überlappen. Für jede dieser Zellen werden Histogramme für die jeweils berechneten Gradienten angelegt. Die Einteilung erfolgt entsprechend ihrer Richtung. Die Ergebnisse müssen normalisiert werden. Die HOGs werden mittels Detektionsfenster extrahiert und an eine Support Vector Machine (SVM) weitergeben. Danach kann entschieden werden, ob das entsprechende Objekt gefunden wurde. Im Fall von \cite{dalal2005histograms} Menschen. In dem eben genannten Wissenschaftlichen Artikel hat sich durch Experimente herausgestellt, dass die einfache Ableitungsmaske \ref{Abl_Maske} zur Berechnung der Gradienten die besten Ergebnisse liefert. Es wurden andere Ableitungsfilter, wie z.B. der Sobel-Operator (Formel \ref{Sobel}, entnommen aus \cite{Priese15}), jedoch waren die Ergebnisse eher enttäuschend. 
+
+\begin{align}
+\label{Sobel}
+	S_x =	\begin{Bmatrix}
+				-1 & 0 & 1 \\
+				-2 & 0 & 2 \\
+				-1 & 0 & 1 
+			\end{Bmatrix}  &  
+	S_y =	\begin{Bmatrix}
+				-1 & -2 & -1 \\
+				 0 & 0 &   0 \\
+				 1 & 2 &   1 
+			\end{Bmatrix}	
+\end{align}
+Auch wurde, zwecks Optimierung, mit Gaußfiltern experimentiert. Eine Performenceverbesserung wurde ebenfalls nicht erzielt. 
+Detailliertere Informationen über den HOG2D sind in \cite{dalal2005histograms} zu finden.
+ 

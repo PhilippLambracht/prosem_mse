@@ -38,12 +38,15 @@ Eine Detail reichere Einführung im Bezug auf Bildverarbeitung ist in \cite{Prie
 \subsubsection{Gerichtete Gradienten}
 Gerichtete Gradienten werden wie z.B. in \cite{dalal2005histograms} äußerst erfolgreich zur Merkmaildetektion für 2D Bilder eingesetzt. Die Verwendung dieses Begriffs kann in \cite{scherer2010histograms} und dementsprechend in dieser Ausarbeitung vom mathematischen Begriff abweichen.
 \newline
-Um Gerichtete Gradienten zu berechnen, benötigt man Gradientenoperatoren. Hiermit sind Lineare Filter aus der Bildverarbeitung gemeint. In der Einführungslektüre \cite{Priese15} versteht man Filter als Funktionen welche auf Bilder, als Matrizen darstellbar, angewendet werden. Gradientenoperatoren sind gemäß der Definition über differenzierbare Funktionen, eine entsprechende Approximation mit denen man z.B. 2D Bilder "`ableiten"' kann. Die Filtermaske 
-$
+Um Gerichtete Gradienten zu berechnen, benötigt man Gradientenoperatoren. Hiermit sind Lineare Filter aus der Bildverarbeitung gemeint. In der Einführungslektüre \cite{Priese15} versteht man Filter als Funktionen welche auf Bilder, als Matrizen darstellbar, angewendet werden. Gradientenoperatoren sind gemäß der Definition über differenzierbare Funktionen, eine entsprechende Approximation mit denen man z.B. 2D Bilder "`ableiten"' kann. Die Filtermaske \ref{Abl_Maske} 
+
+\begin{equation}
+\label{Abl_Maske}
 \begin{Bmatrix}
 -1 & 0 & 1
 \end{Bmatrix}
-$
+\end{equation}
+
 bewirkt z.B. die 1. Ableitung. Dieser Filter kann z.B. für ein 2D Bild dementsprechend in die X-Richtung und in die Y-Richtung angewendet werden. 
 
 \begin{table}[]

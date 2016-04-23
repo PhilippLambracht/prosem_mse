@@ -10,17 +10,66 @@ Dies ist selbst möglich ohne die genaue Position der Gradienten zu kennen. Der 
 
 \begin{align}
 \label{Sobel}
-	S_x =	\begin{Bmatrix}
+	S_x =	\begin{bmatrix}
 				-1 & 0 & 1 \\
 				-2 & 0 & 2 \\
 				-1 & 0 & 1 
-			\end{Bmatrix}  &  
-	S_y =	\begin{Bmatrix}
+			\end{bmatrix}  &  
+	S_y =	\begin{bmatrix}
 				-1 & -2 & -1 \\
 				 0 & 0 &   0 \\
 				 1 & 2 &   1 
-			\end{Bmatrix}	
+			\end{bmatrix}	
 \end{align}
 Auch wurde, zwecks Optimierung, mit Gaußfiltern experimentiert. Eine Performenceverbesserung wurde ebenfalls nicht erzielt. 
 Detailliertere Informationen über den HOG2D sind in \cite{dalal2005histograms} zu finden.
- 
+
+\subsection{HOG3D}
+
+
+\subsubsection{Erweiterung des HOG2D auf HOG3D}
+Der erste Schritt, die Berechnung der Gradienten, erweist sich bei der Erweiterung auf HOG3D ein wenig komplizierter. Zunächst Benötigt man eine Notation für Nachbarschaft und Intensität für die Polygon Meshs. In \cite{scherer2010histograms} wird dafür ein dreidimensionales euklidisches 
+Distanzfeld berechnet. Dieses Feld ist als eine reellwertige Funktion aufzufassen, welche auf einem diskreten, regulären 3D Gitter definiert ist. Das Gitter umfasst dabei das komplette Volumen des Meshs \cite{scherer2010histograms}. Die jeweiligen Gitterzellen können auch als Voxel bezeichnet werden. Jeder Voxel enthält dabei die Information über den Abstand seines Zentrums zur Oberfläche des Meshs. 
+
+\begin{equation*}
+f: \mathbb{N} \times \mathbb{N} \times \mathbb{N} \mapsto \mathbb{R} 
+\end{equation*}
+\begin{equation}
+\label{Distanzfeld_Fkt}
+f(x,y,z) = \min_{\substack{x \in \Sigma}} \| x-center(x,y,z) \|_2
+\end{equation}
+Eine Definition der Funktion ist bei Formel \ref{Distanzfeld_Fkt} zu sehen, entnommen aus \cite{scherer2010histograms}. $\Sigma$ ist hierbei die Menge aller Punkte auf der Oberfläche des Meshs und $center: \mathbb{N} \times \mathbb{N} \times \mathbb{N} \mapsto p $ liefert die Koordinate des Zentrums des Voxels zurück.
+\newline
+Auf das berechnete Distanzfeld kann man z.B. die Filtermaske $\begin{bmatrix} -1 & 0 & 1\end{bmatrix}$ aus \cite{dalal2005histograms} anwenden für Die Gradientenberechnung.
+\newline
+Das Distanzfeld wird sehr stark von Position und große des Objekts beeinflusst. Dementsprechend muss das Mesh vor der Distanzfeldberechnung normalisiert werden. In \cite{scherer2010histograms} greift man deshalb auf Translationsinvarianz  (das Zentrum der Masse des Meshs wird in den Ursprung verlegt), Skalierungsinvarianz (Skallierung des Meshs in den Einheitswürfel), sowie eine Normalisierung für Rotation mittels gewichteter PCA analyse.
+\newline
+Der zweite Schritt ist im weiten simpler. Die dreidimensionalen Gradienten werden jeweils entsprechend ihrer Richtung in Histogramme für die einzelnen Zellen eingeordnet. Hierfür werden die Gradienten in sphärische Koordinaten entsprechend Formel \ref{Sphere_Koord}, entnommen aus \cite{scherer2010histograms}, umgerechnet.
+
+\begin{equation}
+\label{Sphere_Koord}
+\begin{pmatrix}
+	\theta \\ 
+	 \phi \\ 
+	 r
+\end{pmatrix}
+= \begin{pmatrix}
+	\arccos\dfrac{z}{\sqrt{x^2+y^2+z^2}} \\ 
+	 atan2(x,y) \\ 
+	 \sqrt{x^2+y^2+z^2}
+\end{pmatrix}
+$$.
+\end{equation}
+Die Einordnung erfolgt entsprechend ihrer Richtung ($Zenit \theta \in [0,\pi) $ und $Azimut \phi \in [0,2\pi)$)  
+
+\subsubsection{HOG3D Extraktionsalgorithmus }
+Der schematische Ablauf des Extraktionsalgorithmus ist in \figurename~\ref{Vekt_ext_pipe} zu sehen. Genaueres über die Implementation ist in dem in \cite{scherer2010histograms} mitgelieferten Sourcecode \footnote{www.gris.informatik.tu-darmstadt.de/projects/vsa/3dhog/3dhog.zip} zu entnehmen 
+
+ \begin{figure}[thpb]
+ 	\centering
+ 	\includegraphics[width=\linewidth]{2-Hauptteil/pics/HOG3D_extrac_pipe.png}
+ 	
+ 	\caption{Vektor Extraktionspipeline aus \cite{scherer2010histograms}}
+ 	\label{Vekt_ext_pipe}
+ \end{figure}
+

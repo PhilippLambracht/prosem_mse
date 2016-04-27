@@ -19,6 +19,7 @@ Konstanz 3d shape database (Kn-DB):
 http://www.informatik.uni-konstanz.de/tr/saupe/research/finished-projects/3d-model-retrieval/
 http://bib.dbvis.de/uploadedFiles/85.pdf
 
+http://www.itl.nist.gov/iad/vug/sharp/contest/2014/Generic3D/
 
 A 438-dimensional Depth-Buffer descriptor, (DBD438), 300-dimensional
 Silhouette-based descriptor (SIL300)

@@ -6,7 +6,8 @@ zu finden, arbeitet mit aggregierten Gradienten. Beim HOG2D werden hingegen die 
 ihrer Richtung in Histogrammen eingeordnet.
 \newline
 Die Idee hinter dem HOG2D ist, dass sich Form und Aussehen von Objekten mit Gradienten beschreiben lassen.
-Dies ist selbst möglich ohne die genaue Position der Gradienten zu kennen. Der HOG2D läuft grob nach folgenden Schema ab. Zuerst werden die Farbwerte des Bilds,auf dem die Detektion durchgeführt wird, normalisiert. Danach wird das Bild in gleich große, rechteckige Zellen aufgeteilt. Dabei können einzelne Zellen überlappen. Für jede dieser Zellen werden Histogramme für die jeweils berechneten Gradienten angelegt. Die Einteilung erfolgt entsprechend ihrer Richtung. Die Ergebnisse müssen normalisiert werden. Die HOGs werden mittels Detektionsfenster extrahiert und an eine Support Vector Machine (SVM) weitergeben. Danach kann entschieden werden, ob das entsprechende Objekt gefunden wurde. Im Fall von \cite{dalal2005histograms} Menschen. In dem eben genannten Wissenschaftlichen Artikel hat sich durch Experimente herausgestellt, dass die einfache Ableitungsmaske \ref{Abl_Maske} zur Berechnung der Gradienten die besten Ergebnisse liefert. Es wurden andere Ableitungsfilter, wie z.B. der Sobel-Operator (Formel \ref{Sobel}, entnommen aus \cite{Priese15}), jedoch waren die Ergebnisse eher enttäuschend. 
+Dies ist selbst möglich ohne die genaue Position der Gradienten zu kennen. Der HOG2D läuft grob nach folgenden Schema ab. Zuerst werden die Farbwerte des Bilds,auf dem die Detektion durchgeführt wird, normalisiert. Danach wird das Bild in gleich große, rechteckige Zellen aufgeteilt. Dabei können einzelne Zellen überlappen. Für jede dieser Zellen werden Histogramme für die jeweils berechneten Gradienten angelegt. Die Einteilung erfolgt entsprechend ihrer Richtung. Die Ergebnisse müssen normalisiert werden. Die HOGs werden mittels Detektionsfenster extrahiert und an eine Support Vector Machine (SVM) weitergeben. Danach kann entschieden werden, ob das entsprechende Objekt gefunden wurde. Im Fall von \cite{dalal2005histograms} Menschen. In dem eben genannten Wissenschaftlichen Artikel hat sich durch Experimente herausgestellt, dass die einfache Ableitungsmaske \ref{Abl_Maske} zur Berechnung der Gradienten die besten Ergebnisse liefert. 
+Es wurden andere Ableitungsfilter, wie z.B. der Sobel-Operator (Formel \ref{Sobel}, entnommen aus \cite{Priese15}), jedoch waren die Ergebnisse eher enttäuschend. 
 
 \begin{align}
 \label{Sobel}
@@ -58,7 +59,6 @@ Der zweite Schritt ist im weiten simpler. Die dreidimensionalen Gradienten werde
 	 atan2(x,y) \\ 
 	 \sqrt{x^2+y^2+z^2}
 \end{pmatrix}
-$$.
 \end{equation}
 Die Einordnung erfolgt entsprechend ihrer Richtung ($Zenit \theta \in [0,\pi) $ und $Azimut \phi \in [0,2\pi)$)  
 
@@ -72,4 +72,14 @@ Der schematische Ablauf des Extraktionsalgorithmus ist in \figurename~\ref{Vekt_
  	\caption{Vektor Extraktionspipeline aus \cite{scherer2010histograms}}
  	\label{Vekt_ext_pipe}
  \end{figure}
+ 
+\subsection{Experiment}
+Im folgenden werde ich das in \cite{scherer2010histograms} durchgeführte Experiment und dessen Ergebnisse vorstellen. Um die Effizienz der Deskriptoren zu vergleichen wird "`Precision and recall"' verwendet
 
+\subsubsection{Verwendete Benchmarks}
+
+
+\subsubsection{Verwendete Vergleichstransskriptoren}
+
+
+\subsubsection{Ergebnisse des Experiment}

@@ -68,18 +68,51 @@ Der schematische Ablauf des Extraktionsalgorithmus ist in \figurename~\ref{Vekt_
  \begin{figure}[thpb]
  	\centering
  	\includegraphics[width=\linewidth]{2-Hauptteil/pics/HOG3D_extrac_pipe.png}
- 	
  	\caption{Vektor Extraktionspipeline aus \cite{scherer2010histograms}}
  	\label{Vekt_ext_pipe}
  \end{figure}
  
 \subsection{Experiment}
-Im folgenden werde ich das in \cite{scherer2010histograms} durchgeführte Experiment und dessen Ergebnisse vorstellen. Um die Effizienz der Deskriptoren zu vergleichen wird "`Precision and recall"' verwendet
+Im folgenden werde ich das in \cite{scherer2010histograms} durchgeführte Experiment und dessen Ergebnisse vorstellen. Um die Effizienz der Deskriptoren zu vergleichen werden Precision-and-recall-Diagramme verwendet
 
 \subsubsection{Verwendete Benchmarks}
+Für das Experiment wurden drei etablierte Benchmarks genommen, welche 3D Mesh Modelle enthalten. Princton Shape Benchmark (PSB), 2009 SHREC Generic Shape Retrieval Contest dataset (SHREC) und Konstanz 3D shape database (KN-DB). Die einzelnen 3D Modelle sind in verschiedene Klassen eingeteilt (z.B. Menschen, Tiere, Autos, .. ), damit verschiedene 3D Deskriptoren besser miteinander verglichen werden können. Je nachdem um welche Objektart es sich handelt, liefern Deskriptoren unterschiedlich gute Ergebnisse. 
 
+\begin{table}[H]
+	\centering
+	\caption{My caption}
+	\label{my-label}
+	\begin{tabular}{lllll}
+		Benchmark & anz. Modelle & anz. Klassen & durchschn. anz. M. pro K. &  \\
+		PSB       & 1814         & 92           & 10                                 &  \\
+		KN-DB     & 473          & 55           & 9                                  &  \\
+		SHREC     & 720          & 40          & 18                                & 
+	\end{tabular}
+\end{table}
+\subsubsection{Verwendete Vergleichsdeskriptoren}
+Im folgenden werde ich die Vergleichsdeskriptoren kurz anreißen. Details sind in \cite{dvvra3DModelret} zu finden.
 
-\subsubsection{Verwendete Vergleichstransskriptoren}
+\paragraph{438-dimensional Depth-Buffer Descriptor (DBD438)}
+Dieser Deskripter nutzt das aus der Computergrafik bekannte Tiefenpufferverfahren. Nach \cite{scherer2010histograms} gilt dieser Deskriptor als einer der effektivsten.
 
+\paragraph{300-dimensional Silhoutte-based Descriptor(SIL300)}
+Der SIL300 arbeitet mit der Zerlegung des 3D Models in 2D Silhouetten 
+mit den jeweiligen Achsen (y,z) (z,y) und (x,y).
+
+\paragraph{136-dimensional Descriptor based on Radial Extent function (RSH136) }
+Bei diesem Deskriptor wird mit der Ausdehnung von 3D Objekten gearbeitet. Die Objekte werden entlang gegebenen Richtungen(entlang von vorher definierten Strahlen) gemessen.
+
+\paragraph{472-dimensonal Hybrid Descriptor (DSR472) }
+Hierbei handelt es sich um einen Hybrid aus den vorigen Deskriptoren. Da hier geschickt die einzelnen Stärken kombiniert werden, ist sogar dem DBD438 überlegen.
 
 \subsubsection{Ergebnisse des Experiment}
+Zunächst wurde überprüft, ob sich zur Gradientenberechnung ggf. Gradienten der 2. Ableitung (Formel \ref{Abl_''_Maske}) bessere Ergebnisse liefern.    
+\begin{equation}
+\label{Abl_''_Maske}
+\begin{bmatrix}
+1 & 0 & -2 & 0 & 1
+\end{bmatrix}
+\end{equation}
+Da dies der Fall war, wurden alle weiteren Benchmarks mit der 2. Ableitung durchgeführt. Im Vergleich mit den einzelnen Deskriptoren schneidet der HOG3D besser ab. Entsprechend wenig überraschend ist er aber dem Hybrid Deskriptor unterlegen. Dennoch schneidet der HOG3D beim SHREC Benchmark bei einzelenen Klassen besser ab, als der Hybrid. Dies legt nahe, dass der HOG3D wichtige 3D Merkmale erkennt, die den anderen Deskriptoren entgehen \cite{scherer2010histograms}.
+\newline
+Entsprechende Versuche, in denen der HOG3D mit dem DSR472 kombiniert wurde führten zu einer Performanceverbesserung. Der HOG3D stellt damit einen wertvollen Beitrag zur Verbesserung von 3D Objekterkennungssystemen da \cite{scherer2010histograms}.

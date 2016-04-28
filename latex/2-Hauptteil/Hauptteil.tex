@@ -76,12 +76,12 @@ Der schematische Ablauf des Extraktionsalgorithmus ist in \figurename~\ref{Vekt_
 Im folgenden werde ich das in \cite{scherer2010histograms} durchgeführte Experiment und dessen Ergebnisse vorstellen. Um die Effizienz der Deskriptoren zu vergleichen werden Precision-and-recall-Diagramme verwendet
 
 \subsubsection{Verwendete Benchmarks}
-Für das Experiment wurden drei etablierte Benchmarks genommen, welche 3D Mesh Modelle enthalten. Princton Shape Benchmark (PSB), 2009 SHREC Generic Shape Retrieval Contest dataset (SHREC) und Konstanz 3D shape database (KN-DB). Die einzelnen 3D Modelle sind in verschiedene Klassen eingeteilt (z.B. Menschen, Tiere, Autos, .. ), damit verschiedene 3D Deskriptoren besser miteinander verglichen werden können. Je nachdem um welche Objektart es sich handelt, liefern Deskriptoren unterschiedlich gute Ergebnisse. 
+Für das Experiment wurden drei etablierte Benchmarks genommen, welche 3D Mesh Modelle enthalten. Der Princton Shape Benchmark (PSB), 2009 SHREC Generic Shape Retrieval Contest dataset (SHREC) und Konstanz 3D shape database (KN-DB). Die einzelnen 3D Modelle sind in verschiedene Klassen eingeteilt (z.B. Menschen, Tiere, Autos, .. ), damit verschiedene 3D Deskriptoren besser miteinander verglichen werden können. Je nachdem um welche Objektart es sich handelt, liefern Deskriptoren unterschiedlich gute Ergebnisse. 
 
 \begin{table}[H]
 	\centering
-	\caption{My caption}
-	\label{my-label}
+	\caption{}
+	\label{Benchmarks}
 	\begin{tabular}{lllll}
 		Benchmark & anz. Modelle & anz. Klassen & durchschn. anz. M. pro K. &  \\
 		PSB       & 1814         & 92           & 10                                 &  \\
@@ -113,6 +113,33 @@ Zunächst wurde überprüft, ob sich zur Gradientenberechnung ggf. Gradienten de
 1 & 0 & -2 & 0 & 1
 \end{bmatrix}
 \end{equation}
-Da dies der Fall war, wurden alle weiteren Benchmarks mit der 2. Ableitung durchgeführt. Im Vergleich mit den einzelnen Deskriptoren schneidet der HOG3D besser ab. Entsprechend wenig überraschend ist er aber dem Hybrid Deskriptor unterlegen. Dennoch schneidet der HOG3D beim SHREC Benchmark bei einzelenen Klassen besser ab, als der Hybrid. Dies legt nahe, dass der HOG3D wichtige 3D Merkmale erkennt, die den anderen Deskriptoren entgehen \cite{scherer2010histograms}.
+Da dies der Fall war, wurden alle weiteren Benchmarks mit der 2. Ableitung durchgeführt. Im Vergleich mit den einzelnen Deskriptoren schlägt sich der HOG3D Relativ gut, schneidet sogar beim SHREC Benchmark besser als die anderen Deskriptoren ab (\figurename~\ref{Shrec_diag}).
+
+ \begin{figure}[thpb]
+ 	\centering
+ 	\includegraphics[width=\linewidth]{2-Hauptteil/pics/SHREC_diag.png}
+ 	\caption{SHREC Precision-Recall-Diagramm aus \cite{scherer2010histograms}}
+ 	\label{Shrec_diag}
+ \end{figure}
+ 
+ Entsprechend wenig überraschend ist er aber dem Hybrid Deskriptor unterlegen. Dennoch schneidet der HOG3D beim SHREC Benchmark bei einzelnen Klassen besser ab, als der Hybrid. Zu sehen in \figurename~\ref{SHREC_HOG3D_DSR472} 
+
+ \begin{figure}[thpb]
+ 	\centering
+ 	\includegraphics[width=\linewidth]{2-Hauptteil/pics/SHREC_HOG3D_DSR472.png}
+ 	\caption{1. Tier Präzision der verschieden Klassen des SHREC Benchmark aus \cite{scherer2010histograms}}
+ 	\label{SHREC_HOG3D_DSR472}
+ \end{figure}
+ 
+ Dies legt nahe, dass der HOG3D wichtige 3D Merkmale erkennt, die den anderen Deskriptoren entgehen \cite{scherer2010histograms}.
 \newline
-Entsprechende Versuche, in denen der HOG3D mit dem DSR472 kombiniert wurde führten zu einer Performanceverbesserung. Der HOG3D stellt damit einen wertvollen Beitrag zur Verbesserung von 3D Objekterkennungssystemen da \cite{scherer2010histograms}.
+Entsprechende Versuche, in denen der HOG3D mit dem DSR472 kombiniert wurde führten zu einer Performanceverbesserung, wie in \figurename~\ref{SHREC_TEAM_HOG3D_DSR472} zu sehen. 
+
+\begin{figure}[thpb]
+	\centering
+	\includegraphics[width=\linewidth]{2-Hauptteil/pics/SHREC_TEAM_HOG3D_DSR472.png}
+	\caption{SHREC Precision-Recall-Diagramm aus \cite{scherer2010histograms}}
+	\label{SHREC_TEAM_HOG3D_DSR472}
+\end{figure}
+
+Der HOG3D stellt damit einen wertvollen Beitrag zur Verbesserung von 3D Objekterkennungssystemen da \cite{scherer2010histograms}.

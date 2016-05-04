@@ -1,12 +1,12 @@
-In diesem Abschnitt werde ich zunächst den HOG2D aus \cite{dalal2005histograms} kurz vorstellen, mit dem Hauptthema HOG3D fortfahren und zuletzt das in \cite{scherer2010histograms} durchgeführte Experiment aufgreifen.
+In diesem Abschnitt werde ich zunächst den 2DHOG aus \cite{dalal2005histograms} kurz vorstellen, mit dem Hauptthema 3DHOG fortfahren und zuletzt das in \cite{scherer2010histograms} durchgeführte Experiment aufgreifen.
 
-\subsection{HOG2D}
+\subsection{2DHOG}
 Im Bereich der 2D Objekterkennung aus Bildern existieren bereits erfolgreiche Methoden. Der Skale-Invariant-Feature-Transform Algorithmus (SIFT),genauere Beschreibung z.B. in \cite{Priese15}
-zu finden, arbeitet mit aggregierten Gradienten. Beim HOG2D werden hingegen die Gradienten entsprechend
+zu finden, arbeitet mit aggregierten Gradienten. Beim 2DHOG werden hingegen die Gradienten entsprechend
 ihrer Richtung in Histogrammen eingeordnet.
 \newline
-Die Idee hinter dem HOG2D ist, dass sich Form und Aussehen von Objekten mit Gradienten beschreiben lassen.
-Dies ist selbst möglich ohne die genaue Position der Gradienten zu kennen. Der HOG2D läuft grob nach folgenden Schema ab. Zuerst werden die Farbwerte des Bilds,auf dem die Detektion durchgeführt wird, normalisiert. Danach wird das Bild in gleich große, rechteckige Zellen aufgeteilt. Dabei können einzelne Zellen überlappen. Für jede dieser Zellen werden Histogramme für die jeweils berechneten Gradienten angelegt. Die Einteilung erfolgt entsprechend ihrer Richtung. Die Ergebnisse müssen normalisiert werden. Die HOGs werden mittels Detektionsfenster extrahiert und an eine Support Vector Machine (SVM) weitergeben. Danach kann entschieden werden, ob das entsprechende Objekt gefunden wurde. Im Fall von \cite{dalal2005histograms} Menschen. In dem eben genannten Wissenschaftlichen Artikel hat sich durch Experimente herausgestellt, dass die einfache Ableitungsmaske \ref{Abl_Maske} zur Berechnung der Gradienten die besten Ergebnisse liefert. 
+Die Idee hinter dem 2DHOG ist, dass sich Form und Aussehen von Objekten mit Gradienten beschreiben lassen.
+Dies ist selbst möglich, ohne die genaue Position der Gradienten zu kennen. Der 2DHOG läuft grob nach folgenden Schema ab. Zuerst werden die Farbwerte des Bilds,auf dem die Detektion durchgeführt wird, normalisiert. Danach wird das Bild in gleich große, rechteckige Zellen aufgeteilt. Dabei können einzelne Zellen überlappen. Für jede dieser Zellen werden Histogramme für die jeweils berechneten Gradienten angelegt. Die Einteilung erfolgt entsprechend ihrer Richtung. Die Ergebnisse müssen normalisiert werden. Die HOGs werden mittels Detektionsfenster extrahiert und an eine Support Vector Machine (SVM) weitergeben. Danach kann entschieden werden, ob das entsprechende Objekt gefunden wurde. Im Fall von \cite{dalal2005histograms} Menschen. In dem eben genannten Wissenschaftlichen Artikel hat sich durch Experimente herausgestellt, dass die einfache Ableitungsmaske \ref{Abl_Maske} zur Berechnung der Gradienten die besten Ergebnisse liefert. 
 Es wurden andere Ableitungsfilter, wie z.B. der Sobel-Operator (Formel \ref{Sobel}, entnommen aus \cite{Priese15}), jedoch waren die Ergebnisse eher enttäuschend. 
 
 \begin{align}
@@ -23,13 +23,13 @@ Es wurden andere Ableitungsfilter, wie z.B. der Sobel-Operator (Formel \ref{Sobe
 			\end{bmatrix}	
 \end{align}
 Auch wurde, zwecks Optimierung, mit Gaußfiltern experimentiert. Eine Performenceverbesserung wurde ebenfalls nicht erzielt. 
-Detailliertere Informationen über den HOG2D sind in \cite{dalal2005histograms} zu finden.
+Detailliertere Informationen über den 2DHOG sind in \cite{dalal2005histograms} zu finden.
 
-\subsection{HOG3D}
+\subsection{3DHOG}
 
 
-\subsubsection{Erweiterung des HOG2D auf HOG3D}
-Der erste Schritt, die Berechnung der Gradienten, erweist sich bei der Erweiterung auf HOG3D ein wenig komplizierter. Zunächst Benötigt man eine Notation für Nachbarschaft und Intensität für die Polygon Meshs. In \cite{scherer2010histograms} wird dafür ein dreidimensionales euklidisches 
+\subsubsection{Erweiterung des 2DHOG auf 3DHOG}
+Der erste Schritt, die Berechnung der Gradienten, erweist sich bei der Erweiterung auf 3DHOG ein wenig komplizierter. Zunächst Benötigt man eine Notation für Nachbarschaft und Intensität für die Polygon Meshs. In \cite{scherer2010histograms} wird dafür ein dreidimensionales euklidisches 
 Distanzfeld berechnet. Dieses Feld ist als eine reellwertige Funktion aufzufassen, welche auf einem diskreten, regulären 3D Gitter definiert ist. Das Gitter umfasst dabei das komplette Volumen des Meshs \cite{scherer2010histograms}. Die jeweiligen Gitterzellen können auch als Voxel bezeichnet werden. Jeder Voxel enthält dabei die Information über den Abstand seines Zentrums zur Oberfläche des Meshs. 
 
 \begin{equation*}
@@ -39,13 +39,13 @@ f: \mathbb{N} \times \mathbb{N} \times \mathbb{N} \mapsto \mathbb{R}
 \label{Distanzfeld_Fkt}
 f(x,y,z) = \min_{\substack{x \in \Sigma}} \| x-center(x,y,z) \|_2
 \end{equation}
-Eine Definition der Funktion ist bei Formel \ref{Distanzfeld_Fkt} zu sehen, entnommen aus \cite{scherer2010histograms}. $\Sigma$ ist hierbei die Menge aller Punkte auf der Oberfläche des Meshs und $center: \mathbb{N} \times \mathbb{N} \times \mathbb{N} \mapsto p $ liefert die Koordinate des Zentrums des Voxels zurück.
+Eine Definition der Funktion ist bei Formel (\ref{Distanzfeld_Fkt}) zu sehen, entnommen aus \cite{scherer2010histograms}. $\Sigma$ ist hierbei die Menge aller Punkte auf der Oberfläche des Meshs und $center: \mathbb{N} \times \mathbb{N} \times \mathbb{N} \mapsto p $ liefert die Koordinate des Zentrums des Voxels zurück.
 \newline
-Auf das berechnete Distanzfeld kann man z.B. die Filtermaske $\begin{bmatrix} -1 & 0 & 1\end{bmatrix}$ aus \cite{dalal2005histograms} anwenden für Die Gradientenberechnung.
+Auf das berechnete Distanzfeld kann man z.B. die Filtermaske $\begin{bmatrix} -1 & 0 & 1\end{bmatrix}$ aus \cite{dalal2005histograms} anwenden für die Gradientenberechnung.
 \newline
-Das Distanzfeld wird sehr stark von Position und große des Objekts beeinflusst. Dementsprechend muss das Mesh vor der Distanzfeldberechnung normalisiert werden. In \cite{scherer2010histograms} greift man deshalb auf Translationsinvarianz  (das Zentrum der Masse des Meshs wird in den Ursprung verlegt), Skalierungsinvarianz (Skallierung des Meshs in den Einheitswürfel), sowie eine Normalisierung für Rotation mittels gewichteter PCA analyse.
+Das Distanzfeld wird sehr stark von Position und Größe des Objekts beeinflusst. Dementsprechend muss das Mesh vor der Distanzfeldberechnung normalisiert werden. In \cite{scherer2010histograms} greift man deshalb auf Translationsinvarianz  (das Zentrum der Masse des Meshs wird in den Ursprung verlegt), Skalierungsinvarianz (Skallierung des Meshs in den Einheitswürfel), sowie eine Normalisierung für Rotation mittels gewichteter PCA analyse.
 \newline
-Der zweite Schritt ist im weiten simpler. Die dreidimensionalen Gradienten werden jeweils entsprechend ihrer Richtung in Histogramme für die einzelnen Zellen eingeordnet. Hierfür werden die Gradienten in sphärische Koordinaten entsprechend Formel \ref{Sphere_Koord}, entnommen aus \cite{scherer2010histograms}, umgerechnet.
+Der zweite Schritt ist um weiten simpler. Die dreidimensionalen Gradienten werden jeweils entsprechend ihrer Richtung in Histogramme für die einzelnen Zellen eingeordnet. Hierfür werden die Gradienten in sphärische Koordinaten entsprechend Formel (\ref{Sphere_Koord}), entnommen aus \cite{scherer2010histograms}, umgerechnet.
 
 \begin{equation}
 \label{Sphere_Koord}
@@ -62,12 +62,12 @@ Der zweite Schritt ist im weiten simpler. Die dreidimensionalen Gradienten werde
 \end{equation}
 Die Einordnung erfolgt entsprechend ihrer Richtung ($Zenit \theta \in [0,\pi) $ und $Azimut \phi \in [0,2\pi)$)  
 
-\subsubsection{HOG3D Extraktionsalgorithmus }
+\subsubsection{3DHOG Extraktionsalgorithmus }
 Der schematische Ablauf des Extraktionsalgorithmus ist in \figurename~\ref{Vekt_ext_pipe} zu sehen. Genaueres über die Implementation ist in dem in \cite{scherer2010histograms} mitgelieferten Sourcecode \footnote{www.gris.informatik.tu-darmstadt.de/projects/vsa/3dhog/3dhog.zip} zu entnehmen 
 
  \begin{figure}[thpb]
  	\centering
- 	\includegraphics[width=\linewidth]{2-Hauptteil/pics/HOG3D_extrac_pipe.png}
+ 	\includegraphics[width=\linewidth]{2-Hauptteil/pics/3DHOG_extrac_pipe.png}
  	\caption{Vektor Extraktionspipeline aus \cite{scherer2010histograms}}
  	\label{Vekt_ext_pipe}
  \end{figure}
@@ -113,7 +113,7 @@ Zunächst wurde überprüft, ob sich zur Gradientenberechnung ggf. Gradienten de
 1 & 0 & -2 & 0 & 1
 \end{bmatrix}
 \end{equation}
-Da dies der Fall war, wurden alle weiteren Benchmarks mit der 2. Ableitung durchgeführt. Im Vergleich mit den einzelnen Deskriptoren schlägt sich der HOG3D Relativ gut, schneidet sogar beim SHREC Benchmark besser als die anderen Deskriptoren ab (\figurename~\ref{Shrec_diag}).
+Da dies der Fall war, wurden alle weiteren Benchmarks mit der 2. Ableitung durchgeführt. Im Vergleich mit den einzelnen Deskriptoren schlägt sich der 3DHOG Relativ gut, schneidet sogar beim SHREC Benchmark besser als die anderen Deskriptoren ab (\figurename~\ref{Shrec_diag}).
 
  \begin{figure}[thpb]
  	\centering
@@ -122,24 +122,24 @@ Da dies der Fall war, wurden alle weiteren Benchmarks mit der 2. Ableitung durch
  	\label{Shrec_diag}
  \end{figure}
  
- Entsprechend wenig überraschend ist er aber dem Hybrid Deskriptor unterlegen. Dennoch schneidet der HOG3D beim SHREC Benchmark bei einzelnen Klassen besser ab, als der Hybrid. Zu sehen in \figurename~\ref{SHREC_HOG3D_DSR472} 
+ Entsprechend wenig überraschend ist er aber dem Hybrid Deskriptor unterlegen. Dennoch schneidet der 3DHOG beim SHREC Benchmark bei einzelnen Klassen besser ab, als der Hybrid. Zu sehen in \figurename~\ref{SHREC_3DHOG_DSR472} 
 
  \begin{figure}[thpb]
  	\centering
- 	\includegraphics[width=\linewidth]{2-Hauptteil/pics/SHREC_HOG3D_DSR472.png}
+ 	\includegraphics[width=\linewidth]{2-Hauptteil/pics/SHREC_3DHOG_DSR472.png}
  	\caption{1. Tier Präzision der verschieden Klassen des SHREC Benchmark aus \cite{scherer2010histograms}}
- 	\label{SHREC_HOG3D_DSR472}
+ 	\label{SHREC_3DHOG_DSR472}
  \end{figure}
  
- Dies legt nahe, dass der HOG3D wichtige 3D Merkmale erkennt, die den anderen Deskriptoren entgehen \cite{scherer2010histograms}.
+ Dies legt nahe, dass der 3DHOG wichtige 3D Merkmale erkennt, die den anderen Deskriptoren entgehen \cite{scherer2010histograms}.
 \newline
-Entsprechende Versuche, in denen der HOG3D mit dem DSR472 kombiniert wurde führten zu einer Performanceverbesserung, wie in \figurename~\ref{SHREC_TEAM_HOG3D_DSR472} zu sehen. 
+Entsprechende Versuche, in denen der 3DHOG mit dem DSR472 kombiniert wurde führten zu einer Performanceverbesserung, wie in \figurename~\ref{SHREC_TEAM_3DHOG_DSR472} zu sehen. 
 
 \begin{figure}[thpb]
 	\centering
-	\includegraphics[width=\linewidth]{2-Hauptteil/pics/SHREC_TEAM_HOG3D_DSR472.png}
+	\includegraphics[width=\linewidth]{2-Hauptteil/pics/SHREC_TEAM_3DHOG_DSR472.png}
 	\caption{SHREC Precision-Recall-Diagramm aus \cite{scherer2010histograms}}
-	\label{SHREC_TEAM_HOG3D_DSR472}
+	\label{SHREC_TEAM_3DHOG_DSR472}
 \end{figure}
 
-Der HOG3D stellt damit einen wertvollen Beitrag zur Verbesserung von 3D Objekterkennungssystemen da \cite{scherer2010histograms}.
+Der 3DHOG stellt damit einen wertvollen Beitrag zur Verbesserung von 3D Objekterkennungssystemen da \cite{scherer2010histograms}.

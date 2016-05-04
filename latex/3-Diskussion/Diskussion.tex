@@ -1,10 +1,10 @@
-
-\subsection{Parameterwahl des HOG3D}
-Das Experiment von Scherer, Walter und Schreck in \cite{scherer2010histograms} hat gezeigt, dass die Parameterwahl für den HOG3D die Performance stark beeinflussen kann. Eine sich als optimal erwiesene Einstellung ist in \figurename~\ref{Parameter} zu finden.
+Dieser Abschnitt befasst sich mit der optimalen Parameter des 3DHOG, welche sich aus dem Experiment aus \cite{scherer2010histograms} ergeben hat. Außerdem gehe ich ebenfalls auf ein dort eingetreten Problem bei der Gradientendefinition ein.
+\subsection{Parameterwahl des 3DHOG}
+Das Experiment von Scherer, Walter und Schreck in \cite{scherer2010histograms} hat gezeigt, dass die Parameterwahl für den 3DHOG die Performance stark beeinflussen kann. Eine sich als optimal erwiesene Einstellung ist in \figurename~\ref{Parameter} zu finden.
 
 \begin{table}[H]
 	\centering
-	\caption{Optimale Parameterwahl für HOG3D, entnommen aus \cite{scherer2010histograms}}
+	\caption{Optimale Parameterwahl für 3DHOG, entnommen aus \cite{scherer2010histograms}}
 	\label{Parameter}
 	\begin{tabular}{ll}
 		Parameter                & Wert     \\
@@ -24,7 +24,7 @@ Die nächsten beiden Parameter legen jeweils die Größe der Blöcke (b\textsubs
 
 
 \subsection{Alternative Gradientendefinition}
-Durch Experimentieren hat sich herausgestellt, das sich die 2. Ableitung für die Gradientenberechnung des HOG3D als effektiver erwiesen hat. Scherer, Walter und Schreck \cite{scherer2010histograms} begründen es damit, dass nicht nur Informationen über Lokale Extrema in der nähe Oberfläche des Meshs, sondern auch Informationen innerhalb des Meshs nützlich sein können. 
+Durch Experimentieren hat sich herausgestellt, das sich die 2. Ableitung für die Gradientenberechnung des 3DHOG als effektiver erwiesen hat. Scherer, Walter und Schreck \cite{scherer2010histograms} begründen es damit, dass nicht nur Informationen über Lokale Extrema in der nähe Oberfläche des Meshs, sondern auch Informationen innerhalb des Meshs nützlich sein können. 
  \begin{figure}[thpb]
  	\centering
  	\includegraphics[width=\linewidth]{3-Diskussion/pics/2D_distance_field.png}

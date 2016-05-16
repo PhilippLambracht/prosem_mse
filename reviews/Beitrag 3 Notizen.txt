@@ -1,0 +1,9 @@
+Beitrag 3
+
++ geforderte Seitenzahl erreicht
+- Orangene markieren evtl kurz erleutern bzw. wie hier verwendet
+- Minimale Rechtschreibfehler im Letzten Abschnitt
++ Abbildungen sinnvoll im Text verwendet
++ Abbildungen beschrichtet mit Quellenangabe
++ Formulierungen angenehm (keine langen, verschachtelten Sätze) gehalten und nicht verwirrend
++ Inhalt verständlich dargestellt, zielt aber auf Leserschaft ab, welche die Grundlagen der Bildverarbeitung beherrscht.

@@ -1,7 +1,7 @@
 Zum Zeitpunkt der Veröffentlichung des von mir ausgewählten Wissenschaftlichen Artikel wurden viele
 unterschiedliche Methoden zur 3D Objekterkennung vorgestellt. Einzelne Deskriptoren konnten sich 
-bisher nicht als überlegen herausstellen. Es hat sich vielmehr etabliert jeweilige Deskriptoren
-geschickt zu kombinieren um deren Stärken zu nutzen und somit eine weitaus bessere Performance zu erzielen.
+bisher nicht als überlegen herausstellen. Es hat sich etabliert die jeweiligen Deskriptoren
+geschickt zu kombinieren um deren Stärken zu nutzen und somit eine weitaus bessere Performanz zu erzielen.
 Dementsprechend wird der in \cite{scherer2010histograms} vorgestellte 3DHOG mit hoch-dimensionalen Merkmal Vektoren
 verglichen und eine Kombination mit diesem in einem Experiment versucht.
 \newline
@@ -13,25 +13,33 @@ Im folgenden werde ich ein paar wichtige Grundbegriffe für diese Ausarbeitung e
 
 \subsubsection{Globaler und partieller Ansatz}
 Bei der 3D Objekterkennung gibt es zwei verschiedene Ansätze. Der globale Ansatz betrachtet jeweils die komplette Form des
-3D Models und es werden nach Ähnlichkeiten gesucht, während der partielle Ansatz nach lokalen Ähnlichkeiten sucht. Hierbei ist zu beachten, dass es bisher keine absolute Lösung des Ähnlichkeitsproblems existiert, weder für den globalen noch für den partiellen Ansatz. Dementsprechend haben entsprechende Lösungsversuche einen heuristische Natur. \cite{scherer2010histograms}.
+3D Models und es werden nach Ähnlichkeiten gesucht, während der partielle Ansatz nach lokalen Ähnlichkeiten sucht. Als ähnlich werden 2 Objekte betrachten, wenn deren Merkmale einen Schwellenwert bezüglich ihrer Differenz bzw. Distanz unterschreiten. Ähnlichkeit ist in der 3D Objekterkennung problematisch, da zusätzlich zu gegebenenfalls sich unterscheidender Beleuchtung noch der Betrachtungswinkel eine Rolle spielt. Bisher konnte diese Problematik noch nicht absolut gelöst werden, weder für den globalen noch für den partiellen Ansatz. Dementsprechend haben entsprechende Lösungsversuche einen heuristische Natur. \cite{scherer2010histograms}.
 
 \subsubsection{Histogramm}
 Histogramme dienen der in der Statistik und Bildverarbeitung dazu Häufigkeiten bestimmter Merkmale
 visuell darzustellen. Ein einfaches Beispiel aus der Bildverarbeitung wäre ein Histogramm eines
 Graustufenbildes mit den jeweils darin vorkommenden Grauwerten. 
 
-\begin{table}[H]
+\begin{figure}[thpb]
 	\centering
-	\caption{Grauwert Histogramm}
-	\label{bsp Histogramm}
-	\begin{tabular}{ll}
-		Grauwert & Anzahl \\
-		150      & 30     \\
-		20       & 5      \\
-		...      & ...    \\
-		255      & 10    
-	\end{tabular}
-\end{table}
+	\includegraphics[width=\linewidth]{1-Einleitung/pics/pic_histo_uni01.png}
+	\caption{Grauwertbild mit Histogramm. Erstellt mit GIMP 2.8.16}
+	\label{SHREC_3DHOG_DSR472}
+\end{figure}
+
+
+%\begin{table}[H]
+%	\centering
+%	\caption{Grauwert Histogramm}
+%	\label{bsp Histogramm}
+%	\begin{tabular}{ll}
+%		Grauwert & Anzahl \\
+%		150      & 30     \\
+%		20       & 5      \\
+%		...      & ...    \\
+%		255      & 10    
+%	\end{tabular}
+%\end{table}
 
 Eine Detail reichere Einführung im Bezug auf Bildverarbeitung ist in \cite{Priese15} zu finden.
 
@@ -47,27 +55,27 @@ Um gerichtete Gradienten zu berechnen, benötigt man Gradientenoperatoren. Hierm
 \end{bmatrix}
 \end{equation}
 
-bewirkt z.B. die 1. Ableitung. Dieser Filter kann z.B. für ein 2D Bild dementsprechend in die X-Richtung und in die Y-Richtung angewendet werden. 
+bewirkt z.B. die 1. Ableitung. Dieser Filter kann z.B. für ein 2D Bild dementsprechend in die X-Richtung (Betrachtung der benachbarten Pixel links und rechts vom abzuleitenden Pixel) und in die Y-Richtung (Betrachtung der benachbarten Pixel über und unter dem Abzuleitenden Pixel) angewendet werden.  
 
 \begin{table}[]
 	\centering
-	\caption{Grauwertbild als Matrize}
+	\caption{Grauwertbild als Matrix}
 	\label{GrauwertMat}
 	\begin{tabular}{llll}
 		$a_{00}$ & $a_{01}$ & $a_{02}$ & $a_{03}$ \\
 		$a_{10}$ & 100    & 50     & 235     \\
 		$a_{20}$ & 73     & 42     & 150      \\
-		$a_{30}$ & 30     & 125    & 0                     
+	%	$a_{30}$ & 30     & 125    & 0                     
 	\end{tabular}
 \end{table}
 
 Formel \ref{abl_a22} zeigt ein Beispiel, wie ein Element aus \tablename~\ref{GrauwertMat} abgeleitet wird. In diesem Fall in X-Richtung. An den Rändern muss jeweils eine Randbehandlung vorgenommen werden. Werte können z.B. gespiegelt werden.
 \begin{equation}
 \label{abl_a22}
-a_{22}'x = -75 + 0 +150 = 75
+a_{22}'x = -73 + 0 +150 = 77
 \end{equation}
 
-Mit den Gradientenoperatoren lässt sich jeweils die Gradientenlänge bzw. -betrag und die Gradientenrichtung berechen. Die Forlmen (\ref{Grad_L}) und (\ref{Grad_R}), entnommen aus \cite{Priese15} zeigen jeweils die Berechnung für 2D Bilder. $I_x$ bzw. $I_y$ steht jeweils für die Ableitung in X- bzw. Y-Richtung. Mit dem Parameter p ist den entsprechende Pixel gemeint.
+Mit den Gradientenoperatoren lässt sich jeweils die Gradientenlänge bzw. -betrag und die Gradientenrichtung berechen. Die Formeln (\ref{Grad_L}) und (\ref{Grad_R}), entnommen aus \cite{Priese15} zeigen jeweils die Berechnung für 2D Bilder. $I_x$ bzw. $I_y$ steht jeweils für die Ableitung in X- bzw. Y-Richtung. Mit dem Parameter p ist den entsprechende Pixel gemeint.
 \begin{equation}
 \label{Grad_L}
 G_l(p) = \sqrt{I^2_x(p)+ I^2 y(p)}

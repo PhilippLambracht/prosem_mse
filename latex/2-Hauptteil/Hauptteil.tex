@@ -6,30 +6,46 @@ zu finden, arbeitet mit aggregierten Gradienten. Beim 2DHOG werden hingegen die 
 ihrer Richtung in Histogrammen eingeordnet.
 \newline
 Die Idee hinter dem 2DHOG ist, dass sich Form und Aussehen von Objekten mit Gradienten beschreiben lassen.
-Dies ist selbst möglich, ohne die genaue Position der Gradienten zu kennen. Der 2DHOG läuft grob nach folgenden Schema ab. Zuerst werden die Farbwerte des Bilds,auf dem die Detektion durchgeführt wird, normalisiert. Danach wird das Bild in gleich große, rechteckige Zellen aufgeteilt. Dabei können einzelne Zellen überlappen. Für jede dieser Zellen werden Histogramme für die jeweils berechneten Gradienten angelegt. Die Einteilung erfolgt entsprechend ihrer Richtung. Die Ergebnisse müssen normalisiert werden. Die HOGs werden mittels Detektionsfenster extrahiert und an eine Support Vector Machine (SVM) weitergeben. Danach kann entschieden werden, ob das entsprechende Objekt gefunden wurde. Im Fall von \cite{dalal2005histograms} Menschen. In dem eben genannten Wissenschaftlichen Artikel hat sich durch Experimente herausgestellt, dass die einfache Ableitungsmaske \ref{Abl_Maske} zur Berechnung der Gradienten die besten Ergebnisse liefert. 
-Es wurden andere Ableitungsfilter, wie z.B. der Sobel-Operator (Formel \ref{Sobel}, entnommen aus \cite{Priese15}), jedoch waren die Ergebnisse eher enttäuschend. 
+Dies ist selbst möglich, ohne die genaue Position der Gradienten zu kennen. Der 2DHOG läuft grob nach folgenden Schema ab. 
+\begin{enumerate} 
+	\item Gamma Korrektur
+	\item Berechnung der Gradienten
+	\item Aufteilung des Bilds in gleichgroße, rechteckige Zellen (Überlappung möglich)
+	\item Erstellung der Histogramme für jede dieser Zellen mit den berechneten Gradienten
+	\item Extraktion der HOGs über Detektionsfenster
+	\item Übergabe an eine Support Vector Machine (SVM) und Entscheidung darüber ob Objekt erkannt oder nicht
+	
+\end{enumerate}
 
-\begin{align}
-\label{Sobel}
-	S_x =	\begin{bmatrix}
-				-1 & 0 & 1 \\
-				-2 & 0 & 2 \\
-				-1 & 0 & 1 
-			\end{bmatrix}  &  
-	S_y =	\begin{bmatrix}
-				-1 & -2 & -1 \\
-				 0 & 0 &   0 \\
-				 1 & 2 &   1 
-			\end{bmatrix}	
-\end{align}
-Auch wurde, zwecks Optimierung, mit Gaußfiltern experimentiert. Eine Performenceverbesserung wurde ebenfalls nicht erzielt. 
-Detailliertere Informationen über den 2DHOG sind in \cite{dalal2005histograms} zu finden.
+%Zuerst werden die Farbwerte des Bilds,auf dem die Detektion durchgeführt wird, normalisiert. Danach wird das Bild in gleich große, rechteckige Zellen aufgeteilt. Dabei können einzelne Zellen überlappen. Für jede dieser Zellen werden Histogramme für die jeweils berechneten Gradienten angelegt. Die Einteilung erfolgt entsprechend ihrer Richtung. Die Ergebnisse müssen normalisiert werden. Die HOGs werden mittels Detektionsfenster extrahiert und an eine Support Vector Machine (SVM) weitergeben. Danach kann entschieden werden, ob das entsprechende Objekt gefunden wurde. 
+
+%Im Fall von \cite{dalal2005histograms} Menschen. 
+
+In \cite{dalal2005histograms} hat sich durch Experimente herausgestellt, dass die einfache Ableitungsmaske \ref{Abl_Maske} zur Berechnung der Gradienten die besten Ergebnisse liefert. 
+
+%Es wurden andere Ableitungsfilter, wie z.B. der Sobel-Operator (Formel \ref{Sobel}, entnommen aus \cite{Priese15}), jedoch waren die Ergebnisse eher enttäuschend. 
+
+% \begin{align}
+% \label{Sobel}
+%	S_x =	\begin{bmatrix}
+%				-1 & 0 & 1 \\
+%				-2 & 0 & 2 \\
+%				-1 & 0 & 1 
+%			\end{bmatrix}  &  
+%	S_y =	\begin{bmatrix}
+%				-1 & -2 & -1 \\
+%				 0 & 0 &   0 \\
+%				 1 & 2 &   1 
+%			\end{bmatrix}	
+%\end{align}
+%Auch wurde, zwecks Optimierung, mit Gaußfiltern experimentiert. Eine Performenceverbesserung wurde %ebenfalls nicht erzielt. 
+%Detailliertere Informationen über den 2DHOG sind in \cite{dalal2005histograms} zu finden.
 
 \subsection{3DHOG}
 
 
 \subsubsection{Erweiterung des 2DHOG auf 3DHOG}
-Der erste Schritt, die Berechnung der Gradienten, erweist sich bei der Erweiterung auf 3DHOG ein wenig komplizierter. Zunächst Benötigt man eine Notation für Nachbarschaft und Intensität für die Polygon Meshs. In \cite{scherer2010histograms} wird dafür ein dreidimensionales euklidisches 
+Der erste Schritt, die Berechnung der Gradienten, erweist sich bei der Erweiterung auf 3DHOG komplizierter. Nachbarschaft (bei 2D Bildern Pixel die genau nebeneinander liegen) und Intensität (z.B. Helligkeit bei einem Graustufenbild) lassen sich nicht analog auf Polygon Meshs übertragen. Dafür benötigt man eine Notation. In \cite{scherer2010histograms} wird dafür ein dreidimensionales euklidisches 
 Distanzfeld berechnet. Dieses Feld ist als eine reellwertige Funktion aufzufassen, welche auf einem diskreten, regulären 3D Gitter definiert ist. Das Gitter umfasst dabei das komplette Volumen des Meshs \cite{scherer2010histograms}. Die jeweiligen Gitterzellen können auch als Voxel bezeichnet werden. Jeder Voxel enthält dabei die Information über den Abstand seines Zentrums zur Oberfläche des Meshs. 
 
 \begin{equation*}
@@ -63,14 +79,26 @@ Der zweite Schritt ist um weiten simpler. Die dreidimensionalen Gradienten werde
 Die Einordnung erfolgt entsprechend ihrer Richtung ($Zenit \theta \in [0,\pi) $ und $Azimut \phi \in [0,2\pi)$)  
 
 \subsubsection{3DHOG Extraktionsalgorithmus }
-Der schematische Ablauf des Extraktionsalgorithmus ist in \figurename~\ref{Vekt_ext_pipe} zu sehen. Genaueres über die Implementation ist in dem in \cite{scherer2010histograms} mitgelieferten Sourcecode \footnote{www.gris.informatik.tu-darmstadt.de/projects/vsa/3dhog/3dhog.zip} zu entnehmen 
+Der schematische Ablauf des Extraktionsalgorithmus ist wie folgt.
 
- \begin{figure}[thpb]
- 	\centering
- 	\includegraphics[width=\linewidth]{2-Hauptteil/pics/3DHOG_extrac_pipe.png}
- 	\caption{Vektor Extraktionspipeline aus \cite{scherer2010histograms}}
- 	\label{Vekt_ext_pipe}
- \end{figure}
+\begin{enumerate} 
+	\item Normalisierung der Translation Skalierung und Rotation des Models
+	\item Berechnung des Distanzfeldes
+	\item Berechnung der Gradienten
+	\item Einteilung in Zellen und deren Normalisierung
+	\item Erstellung der Histogramme für jede dieser Zellen mit den berechneten Gradienten
+	\item Aggregation der Histogramme zu Blöcken
+	\item Berechnung der Merkmalvektoren, Übergabe z.B. an eine Support Vector Machine (SVM) und Entscheidung darüber ob Objekt erkannt oder nicht
+	
+\end{enumerate}
+Genaueres über die Implementation ist in dem in \cite{scherer2010histograms} mitgelieferten Sourcecode \footnote{www.gris.informatik.tu-darmstadt.de/projects/vsa/3dhog/3dhog.zip} zu entnehmen 
+
+% \begin{figure}[thpb]
+% 	\centering
+% 	\includegraphics[width=\linewidth]{2-Hauptteil/pics/3DHOG_extrac_pipe.png}
+% 	\caption{Vektor Extraktionspipeline aus \cite{scherer2010histograms}}
+% 	\label{Vekt_ext_pipe}
+% \end{figure}
  
 \subsection{Experiment}
 Im folgenden werde ich das in \cite{scherer2010histograms} durchgeführte Experiment und dessen Ergebnisse vorstellen. Um die Effizienz der Deskriptoren zu vergleichen werden Precision-and-recall-Diagramme verwendet

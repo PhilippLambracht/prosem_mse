@@ -1,19 +1,19 @@
 In diesem Abschnitt werde ich zunächst den 2DHOG aus \cite{dalal2005histograms} kurz vorstellen, mit dem Hauptthema 3DHOG fortfahren und zuletzt das in \cite{scherer2010histograms} durchgeführte Experiment aufgreifen.
 
 \subsection{2DHOG}
-Im Bereich der 2D Objekterkennung aus Bildern existieren bereits erfolgreiche Methoden. Der Skale-Invariant-Feature-Transform Algorithmus (SIFT),genauere Beschreibung z.B. in \cite{Priese15}
+Im Bereich der 2D Objekterkennung aus Bildern existieren bereits erfolgreiche Methoden. Der Skale-Invariant-Feature-Transform Algorithmus (SIFT), genauere Beschreibung z.B. in \cite{Priese15}
 zu finden, arbeitet mit aggregierten Gradienten. Beim 2DHOG werden hingegen die Gradienten entsprechend
 ihrer Richtung in Histogrammen eingeordnet.
 \newline
 Die Idee hinter dem 2DHOG ist, dass sich Form und Aussehen von Objekten mit Gradienten beschreiben lassen.
-Dies ist selbst möglich, ohne die genaue Position der Gradienten zu kennen. Der 2DHOG läuft grob nach folgenden Schema ab. 
+Dies ist möglich, ohne die genaue Position der Gradienten zu kennen. Der 2DHOG läuft grob nach folgenden Schema ab. 
 \begin{enumerate} 
 	\item Gamma Korrektur
 	\item Berechnung der Gradienten
 	\item Aufteilung des Bilds in gleichgroße, rechteckige Zellen (Überlappung möglich)
 	\item Erstellung der Histogramme für jede dieser Zellen mit den berechneten Gradienten
 	\item Extraktion der HOGs über Detektionsfenster
-	\item Übergabe an eine Support Vector Machine (SVM) und Entscheidung darüber ob Objekt erkannt oder nicht
+	\item Übergabe an eine Support Vector Machine (SVM) und Entscheidung darüber ob Objekt erkannt wird oder nicht
 	
 \end{enumerate}
 
@@ -45,8 +45,8 @@ In \cite{dalal2005histograms} hat sich durch Experimente herausgestellt, dass di
 
 
 \subsubsection{Erweiterung des 2DHOG auf 3DHOG}
-Der erste Schritt, die Berechnung der Gradienten, erweist sich bei der Erweiterung auf 3DHOG komplizierter. Nachbarschaft (bei 2D Bildern Pixel die genau nebeneinander liegen) und Intensität (z.B. Helligkeit bei einem Graustufenbild) lassen sich nicht analog auf Polygon Meshs übertragen. Dafür benötigt man eine Notation. In \cite{scherer2010histograms} wird dafür ein dreidimensionales euklidisches 
-Distanzfeld berechnet. Dieses Feld ist als eine reellwertige Funktion aufzufassen, welche auf einem diskreten, regulären 3D Gitter definiert ist. Das Gitter umfasst dabei das komplette Volumen des Meshs \cite{scherer2010histograms}. Die jeweiligen Gitterzellen können auch als Voxel bezeichnet werden. Jeder Voxel enthält dabei die Information über den Abstand seines Zentrums zur Oberfläche des Meshs. 
+Der erste Schritt, die Berechnung der Gradienten, erweist sich bei der Erweiterung auf 3DHOG komplizierter, als beim 2DHOG. Nachbarschaft (bei 2D Bildern Pixel die genau nebeneinander liegen) und Intensität (z.B. Helligkeit bei einem Graustufenbild) lassen sich nicht analog auf Polygon Meshes übertragen. Dafür benötigt man eine Notation. In \cite{scherer2010histograms} wird dafür ein dreidimensionales euklidisches 
+Distanzfeld berechnet. Dieses Feld ist als eine reellwertige Funktion aufzufassen, welche auf einem diskreten, regulären 3D Gitter definiert ist. Das Gitter umfasst dabei das komplette Volumen des Meshes \cite{scherer2010histograms}. Die jeweiligen Gitterzellen können auch als Voxel bezeichnet werden. Jeder Voxel enthält dabei die Information über den Abstand seines Zentrums zur Oberfläche des Meshes. 
 
 \begin{equation*}
 f: \mathbb{N} \times \mathbb{N} \times \mathbb{N} \mapsto \mathbb{R} 
@@ -55,13 +55,13 @@ f: \mathbb{N} \times \mathbb{N} \times \mathbb{N} \mapsto \mathbb{R}
 \label{Distanzfeld_Fkt}
 f(x,y,z) = \min_{\substack{x \in \Sigma}} \| x-center(x,y,z) \|_2
 \end{equation}
-Eine Definition der Funktion ist bei Formel (\ref{Distanzfeld_Fkt}) zu sehen, entnommen aus \cite{scherer2010histograms}. $\Sigma$ ist hierbei die Menge aller Punkte auf der Oberfläche des Meshs und $center: \mathbb{N} \times \mathbb{N} \times \mathbb{N} \mapsto p $ liefert die Koordinate des Zentrums des Voxels zurück.
+Eine Definition der Funktion ist bei Formel (\ref{Distanzfeld_Fkt}) zu sehen, entnommen aus \cite{scherer2010histograms}. $\Sigma$ ist hierbei die Menge aller Punkte auf der Oberfläche des Meshes und $center: \mathbb{N} \times \mathbb{N} \times \mathbb{N} \mapsto p $ liefert die Koordinate des Zentrums des Voxels zurück.
 \newline
-Auf das berechnete Distanzfeld kann man z.B. die Filtermaske $\begin{bmatrix} -1 & 0 & 1\end{bmatrix}$ aus \cite{dalal2005histograms} anwenden für die Gradientenberechnung.
+Auf das berechnete Distanzfeld kann man z.B. die Filtermaske $\begin{bmatrix} -1 & 0 & 1\end{bmatrix}$ aus \cite{dalal2005histograms} für die Gradientenberechnung anwenden.
 \newline
-Das Distanzfeld wird sehr stark von Position und Größe des Objekts beeinflusst. Dementsprechend muss das Mesh vor der Distanzfeldberechnung normalisiert werden. In \cite{scherer2010histograms} greift man deshalb auf Translationsinvarianz  (das Zentrum der Masse des Meshs wird in den Ursprung verlegt), Skalierungsinvarianz (Skallierung des Meshs in den Einheitswürfel), sowie eine Normalisierung für Rotation mittels gewichteter PCA analyse.
+Das Distanzfeld wird sehr stark von Position und Größe des Objekts beeinflusst. Dementsprechend muss das Mesh vor der Distanzfeldberechnung normalisiert werden. In \cite{scherer2010histograms} greift man deshalb auf Translationsinvarianz  (das Zentrum der Masse des Meshes wird in den Ursprung verlegt), Skalierungsinvarianz (Skalierung des Meshes in den Einheitswürfel), sowie eine Normalisierung für Rotation mittels gewichteter PCA Analyse.
 \newline
-Der zweite Schritt ist um weiten simpler. Die dreidimensionalen Gradienten werden jeweils entsprechend ihrer Richtung in Histogramme für die einzelnen Zellen eingeordnet. Hierfür werden die Gradienten in sphärische Koordinaten entsprechend Formel (\ref{Sphere_Koord}), entnommen aus \cite{scherer2010histograms}, umgerechnet.
+Der zweite Schritt ähnelt dem vorgehen des 2DHOG. Die dreidimensionalen Gradienten werden jeweils entsprechend ihrer Richtung in Histogramme für die einzelnen Zellen eingeordnet. Hierfür werden die Gradienten in sphärische Koordinaten entsprechend Formel (\ref{Sphere_Koord}), entnommen aus \cite{scherer2010histograms}, umgerechnet.
 
 \begin{equation}
 \label{Sphere_Koord}
@@ -76,22 +76,22 @@ Der zweite Schritt ist um weiten simpler. Die dreidimensionalen Gradienten werde
 	 \sqrt{x^2+y^2+z^2}
 \end{pmatrix}
 \end{equation}
-Die Einordnung erfolgt entsprechend ihrer Richtung ($Zenit \theta \in [0,\pi) $ und $Azimut \phi \in [0,2\pi)$)  
+Die Einordnung in die Histogramme erfolgt entsprechend ihrer Gradientenrichtung ($Zenit \theta \in [0,\pi) $ und $Azimut \phi \in [0,2\pi)$)  
 
-\subsubsection{3DHOG Extraktionsalgorithmus }
+\subsubsection{3DHOG Extraktionsalgorithmus}
 Der schematische Ablauf des Extraktionsalgorithmus ist wie folgt.
 
 \begin{enumerate} 
-	\item Normalisierung der Translation Skalierung und Rotation des Models
+	\item Normalisierung der Translation, Skalierung und Rotation des Models
 	\item Berechnung des Distanzfeldes
 	\item Berechnung der Gradienten
 	\item Einteilung in Zellen und deren Normalisierung
 	\item Erstellung der Histogramme für jede dieser Zellen mit den berechneten Gradienten
 	\item Aggregation der Histogramme zu Blöcken
-	\item Berechnung der Merkmalvektoren, Übergabe z.B. an eine Support Vector Machine (SVM) und Entscheidung darüber ob Objekt erkannt oder nicht
+	\item Berechnung der Merkmalvektoren, Übergabe z.B. an eine Support Vector Machine (SVM) und Entscheidung darüber, ob ein Objekt erkannt wird oder nicht
 	
 \end{enumerate}
-Genaueres über die Implementation ist in dem in \cite{scherer2010histograms} mitgelieferten Sourcecode \footnote{www.gris.informatik.tu-darmstadt.de/projects/vsa/3dhog/3dhog.zip} zu entnehmen 
+Genaueres über die Implementation ist in dem in \cite{scherer2010histograms} mitgelieferten Sourcecode\footnote{www.gris.informatik.tu-darmstadt.de/projects/vsa/3dhog/3dhog.zip} zu entnehmen 
 
 % \begin{figure}[thpb]
 % 	\centering
@@ -101,10 +101,10 @@ Genaueres über die Implementation ist in dem in \cite{scherer2010histograms} mi
 % \end{figure}
  
 \subsection{Experiment}
-Im folgenden werde ich das in \cite{scherer2010histograms} durchgeführte Experiment und dessen Ergebnisse vorstellen. Um die Effizienz der Deskriptoren zu vergleichen werden Precision-and-recall-Diagramme verwendet
+Im Folgenden werde ich das in \cite{scherer2010histograms} durchgeführte Experiment und dessen Ergebnisse vorstellen. Um die Effizienz der Deskriptoren zu vergleichen werden Precision-And-Recall-Diagramme verwendet
 
 \subsubsection{Verwendete Benchmarks}
-Für das Experiment wurden drei etablierte Benchmarks genommen, welche 3D Mesh Modelle enthalten. Der Princton Shape Benchmark (PSB), 2009 SHREC Generic Shape Retrieval Contest dataset (SHREC) und Konstanz 3D shape database (KN-DB). Die einzelnen 3D Modelle sind in verschiedene Klassen eingeteilt (z.B. Menschen, Tiere, Autos, .. ), damit verschiedene 3D Deskriptoren besser miteinander verglichen werden können. Je nachdem um welche Objektart es sich handelt, liefern Deskriptoren unterschiedlich gute Ergebnisse. 
+Für das Experiment wurden drei etablierte Benchmarks genommen, welche 3D Mesh Modelle enthalten. Der Princton Shape Benchmark (PSB), 2009 SHREC Generic Shape Retrieval Contest dataset (SHREC) und Konstanz 3D shape database (KN-DB). Die einzelnen 3D Modelle sind in verschiedene Klassen eingeteilt (z.B. Menschen, Tiere, Autos, ...), damit verschiedene 3D Deskriptoren besser miteinander verglichen werden können. Je nachdem um welche Objektart es sich handelt, liefern Deskriptoren unterschiedlich gute Ergebnisse. 
 
 % \begin{table}[H]
 %	\centering
@@ -121,28 +121,28 @@ Für das Experiment wurden drei etablierte Benchmarks genommen, welche 3D Mesh M
 \subsubsection{Verwendete Vergleichsdeskriptoren}
 Im folgenden werde ich die Vergleichsdeskriptoren kurz anreißen. Details sind in \cite{dvvra3DModelret} zu finden.
 
-\paragraph{438-dimensional Depth-Buffer Descriptor (DBD438)}
+\paragraph{438-Dimensional Depth-Buffer Descriptor (DBD438)}
 Dieser Deskripter nutzt das aus der Computergrafik bekannte Tiefenpufferverfahren. Nach \cite{scherer2010histograms} gilt dieser Deskriptor als einer der effektivsten.
 
-\paragraph{300-dimensional Silhoutte-based Descriptor(SIL300)}
+\paragraph{300-Dimensional Silhoutte-based Descriptor (SIL300)}
 Der SIL300 arbeitet mit der Zerlegung des 3D Models in 2D Silhouetten 
 mit den jeweiligen Achsen (y,z) (z,y) und (x,y).
 
-\paragraph{136-dimensional Descriptor based on Radial Extent function (RSH136) }
+\paragraph{136-Dimensional Descriptor Based On Radial Extent Function (RSH136)}
 Bei diesem Deskriptor wird mit der Ausdehnung von 3D Objekten gearbeitet. Die Objekte werden entlang gegebenen Richtungen(entlang von vorher definierten Strahlen) gemessen.
 
-\paragraph{472-dimensonal Hybrid Descriptor (DSR472) }
+\paragraph{472-Dimensonal Hybrid Descriptor (DSR472)}
 Hierbei handelt es sich um einen Hybrid aus den vorigen Deskriptoren. Da hier geschickt die einzelnen Stärken kombiniert werden, ist sogar dem DBD438 überlegen.
 
 \subsubsection{Ergebnisse des Experiment}
-Zunächst wurde überprüft, ob sich zur Gradientenberechnung ggf. Gradienten der 2. Ableitung (Formel \ref{Abl_''_Maske}) bessere Ergebnisse liefern.    
+Zunächst wurde überprüft, ob zur Gradientenberechnung ggf. Gradienten der 2. Ableitung (Formel \ref{Abl_''_Maske}) bessere Ergebnisse liefern.    
 \begin{equation}
 \label{Abl_''_Maske}
 \begin{bmatrix}
 1 & 0 & -2 & 0 & 1
 \end{bmatrix}
 \end{equation}
-Da dies der Fall war, wurden alle weiteren Benchmarks mit der 2. Ableitung durchgeführt. Im Vergleich mit den einzelnen Deskriptoren schlägt sich der 3DHOG Relativ gut, schneidet sogar beim SHREC Benchmark besser als die anderen Deskriptoren ab (\figurename~\ref{Shrec_diag}).
+Da dies der Fall war, wurden alle weiteren Benchmarks mit der 2. Ableitung durchgeführt. Im Vergleich zu den einzelnen Deskriptoren schlägt sich der 3DHOG relativ gut, schneidet sogar beim SHREC Benchmark besser als die anderen Deskriptoren ab (\figurename~\ref{Shrec_diag}).
 
  \begin{figure}[thpb]
  	\centering

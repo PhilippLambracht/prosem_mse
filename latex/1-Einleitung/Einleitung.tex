@@ -12,8 +12,7 @@ Hauptmotivation für der 3DHOG waren unter anderem bereits erfolgreiche Anpassun
 Im folgenden werde ich ein paar wichtige Grundbegriffe für diese Ausarbeitung erläutern. 
 
 \subsubsection{Globaler und partieller Ansatz}
-Bei der 3D Objekterkennung gibt es zwei verschiedene Ansätze. Der globale Ansatz betrachtet jeweils die komplette Form des
-3D Models und es werden nach Ähnlichkeiten gesucht, während der partielle Ansatz nach lokalen Ähnlichkeiten sucht. Als ähnlich werden 2 Objekte betrachten, wenn deren Merkmale einen Schwellenwert bezüglich ihrer Differenz bzw. Distanz unterschreiten. Ähnlichkeit ist in der 3D Objekterkennung problematisch, da zusätzlich zu gegebenenfalls sich unterscheidender Beleuchtung noch der Betrachtungswinkel eine Rolle spielt. Bisher konnte diese Problematik noch nicht absolut gelöst werden, weder für den globalen noch für den partiellen Ansatz. Dementsprechend haben entsprechende Lösungsversuche einen heuristische Natur. \cite{scherer2010histograms}.
+Bei der 3D Objekterkennung gibt es zwei verschiedene Ansätze. Der globale Ansatz, zu dem der 3DHOG gehört, betrachtet jeweils die komplette Form des 3D Models und es werden nach Ähnlichkeiten gesucht, während der partielle Ansatz nach lokalen Ähnlichkeiten sucht. Als ähnlich werden 2 Objekte betrachten, wenn deren Merkmale einen Schwellenwert bezüglich ihrer Differenz bzw. Distanz unterschreiten. Ähnlichkeit ist in der 3D Objekterkennung problematisch, da zusätzlich zu gegebenenfalls sich unterscheidender Beleuchtung noch der Betrachtungswinkel eine Rolle spielt. Bisher konnte diese Problematik noch nicht absolut gelöst werden, weder für den globalen noch für den partiellen Ansatz. Dementsprechend haben entsprechende Lösungsversuche einen heuristische Natur \cite{scherer2010histograms}.
 
 \subsubsection{Histogramm}
 Histogramme dienen der in der Statistik und Bildverarbeitung dazu Häufigkeiten bestimmter Merkmale
@@ -75,7 +74,7 @@ Formel \ref{abl_a22} zeigt ein Beispiel, wie ein Element aus \tablename~\ref{Gra
 a_{22}'x = -73 + 0 +150 = 77
 \end{equation}
 
-Mit den Gradientenoperatoren lässt sich jeweils die Gradientenlänge bzw. -betrag und die Gradientenrichtung berechen. Die Formeln (\ref{Grad_L}) und (\ref{Grad_R}), entnommen aus \cite{Priese15} zeigen jeweils die Berechnung für 2D Bilder. $I_x$ bzw. $I_y$ steht jeweils für die Ableitung in X- bzw. Y-Richtung. Mit dem Parameter p ist den entsprechende Pixel gemeint.
+Mit den Gradientenoperatoren lässt sich jeweils die Gradientenlänge bzw. -betrag und die Gradientenrichtung berechen. Die Formeln (\ref{Grad_L}) und (\ref{Grad_R}), entnommen aus \cite{Priese15} zeigen jeweils die Berechnung für 2D Bilder. $G_l$ ist der Gradientenbetrag und $G_r$ die Gradientenrichtung $I_x$ bzw. $I_y$ steht jeweils für die Ableitung in X- bzw. Y-Richtung. Mit dem Parameter p ist den entsprechende Pixel gemeint.
 \begin{equation}
 \label{Grad_L}
 G_l(p) = \sqrt{I^2_x(p)+ I^2 y(p)}

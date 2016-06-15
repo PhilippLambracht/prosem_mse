@@ -59,7 +59,7 @@ Eine Definition der Funktion ist bei Formel (\ref{Distanzfeld_Fkt}) zu sehen, en
 \newline
 Auf das berechnete Distanzfeld kann man z.B. die Filtermaske $\begin{bmatrix} -1 & 0 & 1\end{bmatrix}$ aus \cite{dalal2005histograms} für die Gradientenberechnung anwenden.
 \newline
-Das Distanzfeld wird sehr stark von Position und Größe des Objekts beeinflusst. Dementsprechend muss das Mesh vor der Distanzfeldberechnung normalisiert werden. In \cite{scherer2010histograms} greift man deshalb auf Translationsinvarianz  (das Zentrum der Masse des Meshes wird in den Ursprung verlegt), Skalierungsinvarianz (Skalierung des Meshes in den Einheitswürfel), sowie eine Normalisierung für Rotation mittels gewichteter PCA Analyse.
+Das Distanzfeld wird sehr stark von Position und Größe des Objekts beeinflusst. Dementsprechend muss das Mesh vor der Distanzfeldberechnung normalisiert werden. In \cite{scherer2010histograms} greift man deshalb auf Translationsinvarianz  (das Zentrum der Masse des Meshes wird in den Ursprung verlegt), Skalierungsinvarianz (Skalierung des Meshes in den Einheitswürfel), sowie eine Normalisierung für Rotation mittels gewichteter PCA Analyse zurück.
 \newline
 Der zweite Schritt ähnelt dem vorgehen des 2DHOG. Die dreidimensionalen Gradienten werden jeweils entsprechend ihrer Richtung in Histogramme für die einzelnen Zellen eingeordnet. Hierfür werden die Gradienten in sphärische Koordinaten entsprechend Formel (\ref{Sphere_Koord}), entnommen aus \cite{scherer2010histograms}, umgerechnet.
 
@@ -162,7 +162,7 @@ Da dies der Fall war, wurden alle weiteren Benchmarks mit der 2. Ableitung durch
  
  Dies legt nahe, dass der 3DHOG wichtige 3D Merkmale erkennt, die den anderen Deskriptoren entgehen \cite{scherer2010histograms}.
 \newline
-Entsprechende Versuche, in denen der 3DHOG mit dem DSR472 kombiniert wurde führten zu einer Verbesserung der Ergebnisse, wie in \figurename~\ref{SHREC_TEAM_3DHOG_DSR472} zu sehen. 
+Entsprechende Versuche, in denen der 3DHOG mit dem DSR472 kombiniert wurde, führten zu einer Verbesserung der Ergebnisse, wie in \figurename~\ref{SHREC_TEAM_3DHOG_DSR472} zu sehen. 
 
 \begin{figure}[thpb]
 	\centering

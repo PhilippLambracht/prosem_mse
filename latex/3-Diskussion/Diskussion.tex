@@ -21,7 +21,7 @@ Das Experiment von Scherer, Walter und Schreck in \cite{scherer2010histograms} h
 
 Der Parameter r\textsubscript{x,y,z} legt die Anzahl der Voxel im Distanzfeld fest. r\textsubscript{x,y,z} steht jeweils für die Kantenlänge jedes Voxels. Je kleiner die Kantenlänge gewählt wird, desto weniger Informationen gehen verloren, jedoch erhöht sich die Rechenzeit. Mit der Zellengröße c\textsubscript{x,y,z} stellt man ein, wie viele Gradienten in ein Histogramm aufgenommen werden. Damit lässt sich der Grad der Lokalität des Deskriptors konfigurieren \cite{scherer2010histograms}.
 Mit den Parametern 	bins($ \theta $) und bins($ \phi $) bestimmt die Feinheit der Einteilungen des Histogramms. Hier hat man die Wahl zwischen Genauigkeit und Stabilität.
-Die nächsten beiden Parameter legen jeweils die Größe der Blöcke (b\textsubscript{x,y,z})  und ihre Überlappung  (o\textsubscript{x,y,z}) fest. Damit wird konfiguriert, wie viele Benachbarte Zellen miteinander normalisiert werden. Diese beiden Parameter wurden entsprechend vielversprechenden Parameter aus \cite{dalal2005histograms} gewählt. Die Überlappung hatte jedoch nicht den erwarteten positiven Effekt. Deshalb wurde der Wert 0 gewählt.
+Die nächsten beiden Parameter legen jeweils die Größe der Blöcke (b\textsubscript{x,y,z})  und ihre Überlappung  (o\textsubscript{x,y,z}) fest. Damit wird konfiguriert, wie viele benachbarte Zellen miteinander normalisiert werden. Diese beiden Parameter wurden entsprechend vielversprechenden Parameter aus \cite{dalal2005histograms} gewählt. Die Überlappung hatte jedoch nicht den erwarteten positiven Effekt. Deshalb wurde der Wert 0 gewählt.
 
 
 \subsection{Alternative Gradientendefinition}
